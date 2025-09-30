@@ -25,6 +25,10 @@ class ProfileService {
         return b.rating - a.rating;
       });
   }
+
+  getById(id) {
+    return db.find((u) => u.id === Number(id));
+  }
 }
 
 module.exports = new ProfileService();

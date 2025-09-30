@@ -25,5 +25,14 @@
     "skills": ["GraphQL", "React"],
     "about": "Software engineer creating efficient APIs.",
     "rating": 5
+  },
+  {
+    "id": 4,
+    "name": "Anna Kharlova",
+    "age": 28,
+    "city": "Kyiv",
+    "skills": ["JavaScript", "React", "Node.js", "TypeScript"],
+    "about": "I am a full–stack developer with over three years of experience building web applications. I enjoy working on challenging projects and learning new technologies.",
+    "rating": 5.0
   }
 ]

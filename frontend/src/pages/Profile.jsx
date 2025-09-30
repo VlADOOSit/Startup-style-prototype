@@ -1,15 +1,24 @@
+import { useState, useEffect } from "react";
 import Rating from "../components/Rating";
+import { useParams } from "react-router-dom";
+import api from "../api/api";
 
 export default function Profile() {
-  const profile = {
-    name: "Anna Kharlova",
-    age: 28,
-    city: "Kyiv",
-    skills: ["JavaScript", "React", "Node.js", "TypeScript"],
-    about:
-      "I am a full–stack developer with over three years of experience building web applications. I enjoy working on challenging projects and learning new technologies.",
-    rating: 5.0,
-  };
+  const { id } = useParams();
+  const [profile, setProfile] = useState({});
+
+  useEffect(() => {
+    const getProfile = async () => {
+      try {
+        const res = await api(`/profiles/${id}`);
+        setProfile(res.data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    getProfile();
+  }, []);
 
   return (
     <div className="max-w-lg mx-auto py-10">
@@ -19,7 +28,7 @@ export default function Profile() {
         {profile.age}, {profile.city}
       </p>
       <div className="flex flex-wrap justify-center gap-2 mt-4">
-        {profile.skills.map((skill) => (
+        {profile.skills?.map((skill) => (
           <span
             key={skill}
             className="px-3 py-1 bg-blue-100 text-blue-600 rounded-full"
@@ -29,9 +38,9 @@ export default function Profile() {
         ))}
       </div>
       <h3 className="text-lg font-semibold mt-6">About</h3>
-      <p className="text-gray-700">{profile.about}</p>
+      <p className="text-gray-700">{profile?.about}</p>
       <div className="flex justify-center mt-4">
-        <Rating value={profile.rating} />
+        {profile.rating !== undefined && <Rating value={profile.rating} />}
       </div>
     </div>
   );

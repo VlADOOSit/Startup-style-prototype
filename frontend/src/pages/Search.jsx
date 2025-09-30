@@ -2,36 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import ProfileCard from "../components/ProfileCard";
 import Autocomplete from "../components/Autocomplete";
 import SearchBar from "../components/SearchBar";
-
-const results = [
-  {
-    id: 1,
-    name: "Jane Doe",
-    age: 30,
-    city: "Kyiv",
-    skills: ["React", "Node.js"],
-    about: "Full-stack developer with a passion for web technologies.",
-    rating: 4.5,
-  },
-  {
-    id: 2,
-    name: "John Smith",
-    age: 25,
-    city: "Lviv",
-    skills: ["TypeScript", "Python"],
-    about: "Frontend developer experienced in scalable apps.",
-    rating: 4.0,
-  },
-  {
-    id: 3,
-    name: "Alice Johnson",
-    age: 35,
-    city: "Odessa",
-    skills: ["GraphQL", "React"],
-    about: "Software engineer creating efficient APIs.",
-    rating: 4.5,
-  },
-];
+import api from "../api/api";
 
 export default function Search() {
   const allSkills = [
@@ -49,6 +20,8 @@ export default function Search() {
 
   const popularSkills = ["React", "Node.js", "TypeScript", "GraphQL"];
 
+  const [results, setResults] = useState([]);
+
   const [inputValue, setInputValue] = useState("");
   const [selectedSkills, setSelectedSkills] = useState([]);
   const [suggestions, setSuggestions] = useState([]);
@@ -56,6 +29,21 @@ export default function Search() {
   const [activeIndex, setActiveIndex] = useState(-1);
 
   const searchContainerRef = useRef(null);
+
+  useEffect(() => {
+    const getProfiles = async () => {
+      try {
+        const res = await api.get("/profiles");
+
+        console.log(res);
+        setResults(res.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    getProfiles();
+  }, []);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -135,8 +123,16 @@ export default function Search() {
     }
   };
 
-  function search() {
-    console.log(selectedSkills);
+  async function search() {
+    try {
+      const profiles_api = await api.post("/search", {
+        skills: selectedSkills,
+      });
+      console.log(profiles_api);
+      setResults(profiles_api.data);
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   return (

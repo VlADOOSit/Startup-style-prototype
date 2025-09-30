@@ -18,6 +18,17 @@ export default function Search() {
     "Ruby on Rails",
   ];
 
+  const defaultProfiles = [
+    { id: 1, name: "Jane Doe", rating: 4.5, skills: ["React", "Node.js"] },
+    {
+      id: 2,
+      name: "John Smith",
+      rating: 4.0,
+      skills: ["TypeScript", "GraphQL"],
+    },
+    { id: 3, name: "Alice Johnson", rating: 3.8, skills: ["Python", "Django"] },
+  ];
+
   const popularSkills = ["React", "Node.js", "TypeScript", "GraphQL"];
 
   const [results, setResults] = useState([]);
@@ -36,7 +47,6 @@ export default function Search() {
     const getProfiles = async () => {
       try {
         const res = await api.get("/profiles");
-
         console.log(res);
         setResults(res.data);
       } catch (error) {
@@ -198,7 +208,11 @@ export default function Search() {
             id={Number(profile.id)}
           />
         ))}
-        {error && <div style={{ color: "red" }}>error: {error}</div>}
+        {error && (
+          <div style={{ color: "red", marginTop: "10px" }}>
+            Failed to load profiles from server
+          </div>
+        )}
       </div>
     </div>
   );

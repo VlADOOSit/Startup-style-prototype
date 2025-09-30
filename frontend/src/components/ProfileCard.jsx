@@ -20,7 +20,9 @@ export default function ProfileCard({ profile, id }) {
             </span>
           ))}
         </div>
-        <p className="text-sm text-gray-700 text-center">{profile.about}</p>
+        <p className="truncate w-full text-sm text-gray-700 text-center">
+          {profile.about}
+        </p>
         <div className="flex justify-center mt-2">
           <Rating value={profile.rating} />
         </div>

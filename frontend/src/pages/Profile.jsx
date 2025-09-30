@@ -6,6 +6,7 @@ import api from "../api/api";
 export default function Profile() {
   const { id } = useParams();
   const [profile, setProfile] = useState({});
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const getProfile = async () => {
@@ -14,6 +15,7 @@ export default function Profile() {
         setProfile(res.data);
       } catch (error) {
         console.error(error);
+        setError(error);
       }
     };
 
@@ -42,6 +44,7 @@ export default function Profile() {
       <div className="flex justify-center mt-4">
         {profile.rating !== undefined && <Rating value={profile.rating} />}
       </div>
+      {error && <div style={{ color: "red" }}>error: {error}</div>}
     </div>
   );
 }

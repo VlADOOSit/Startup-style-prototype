@@ -22,6 +22,8 @@ export default function Search() {
 
   const [results, setResults] = useState([]);
 
+  const [error, setError] = useState(null);
+
   const [inputValue, setInputValue] = useState("");
   const [selectedSkills, setSelectedSkills] = useState([]);
   const [suggestions, setSuggestions] = useState([]);
@@ -39,6 +41,7 @@ export default function Search() {
         setResults(res.data);
       } catch (error) {
         console.log(error);
+        setError(error);
       }
     };
 
@@ -195,6 +198,7 @@ export default function Search() {
             id={Number(profile.id)}
           />
         ))}
+        {error && <div style={{ color: "red" }}>error: {error}</div>}
       </div>
     </div>
   );
